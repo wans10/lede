@@ -26,7 +26,7 @@ endef
 
 define U-Boot/rk3328/Default
   BUILD_SUBTARGET:=armv8
-  DEPENDS:=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3328-bin
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3328
   ATF:=rk322xh_bl31_v1.49.elf
   USE_RKBIN:=1
 endef
@@ -109,7 +109,7 @@ define U-Boot/nanopi-r4s-rk3399
   NAME:=NanoPi R4S
   BUILD_DEVICES:= \
     friendlyarm_nanopi-r4s
-  DEPENDS:=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3399-bin
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3399
   ATF:=rk3399_bl31_v1.36.elf
   USE_RKBIN:=1
 endef
@@ -119,7 +119,7 @@ define U-Boot/nanopi-r4se-rk3399
   NAME:=NanoPi R4SE
   BUILD_DEVICES:= \
     friendlyarm_nanopi-r4se
-  DEPENDS:=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3399-bin
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3399
   ATF:=rk3399_bl31_v1.36.elf
   USE_RKBIN:=1
 endef
@@ -145,6 +145,16 @@ define U-Boot/xiaobao-nas-v1-rk3399
     codinge_xiaobao-nas-v1
 endef
 
+define U-Boot/fine-3399-rk3399
+  $(U-Boot/rk3399/Default)
+  NAME:=Fine 3399
+  BUILD_DEVICES:= \
+    rumu3f_fine-3399
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3399
+  ATF:=rk3399_bl31_v1.36.elf
+  USE_RKBIN:=1
+endef
+
 define U-Boot/guangmiao-g4c-rk3399
   $(U-Boot/rk3399/Default)
   NAME:=GuangMiao G4C
@@ -157,7 +167,7 @@ define U-Boot/sv901-eaio-rk3399
   NAME:=SV901 EAIO
   BUILD_DEVICES:= \
     scensmart_sv901-eaio
-  DEPENDS:=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3399-bin
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3399
   ATF:=rk3399_bl31_v1.36.elf
   USE_RKBIN:=1
 endef
@@ -166,7 +176,7 @@ endef
 
 define U-Boot/rk3566/Default
   BUILD_SUBTARGET:=armv8
-  DEPENDS:=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3566-bin
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3566
   ATF:=rk3568_bl31_v1.44.elf
   TPL:=rk3566_ddr_1056MHz_v1.21.bin
 endef
@@ -189,7 +199,7 @@ endef
 
 define U-Boot/rk3568/Default
   BUILD_SUBTARGET:=armv8
-  DEPENDS:=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3568-bin
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3568
   ATF:=rk3568_bl31_v1.44.elf
   TPL:=rk3568_ddr_1560MHz_v1.21.bin
 endef
@@ -268,11 +278,34 @@ define U-Boot/seewo-sv21-rk3568
     seewo_sv21-rk3568
 endef
 
+define U-Boot/sige3-rk3568
+  $(U-Boot/rk3568/Default)
+  NAME:=Sige3
+  BUILD_DEVICES:= \
+    armsom_sige3
+endef
+
 define U-Boot/station-p2-rk3568
   $(U-Boot/rk3568/Default)
   NAME:=StationP2
   BUILD_DEVICES:= \
     firefly_station-p2
+endef
+
+# RK3588 boards
+
+define U-Boot/Default/rk3588
+  BUILD_SUBTARGET:=armv8
+  DEPENDS:=+PACKAGE_u-boot-$(1):rkbin-rk3588
+  ATF:=rk3588_bl31_v1.45.elf
+  TPL:=rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin
+endef
+
+define U-Boot/sige7-rk3588
+  $(U-Boot/Default/rk3588)
+  NAME:=Sige7
+  BUILD_DEVICES:= \
+    armsom_sige7
 endef
 
 UBOOT_TARGETS := \
@@ -288,8 +321,10 @@ UBOOT_TARGETS := \
   rock-3a-rk3568 \
   rsb4810-rk3568 \
   seewo-sv21-rk3568 \
+  sige3-rk3568 \
   station-p2-rk3568 \
   dlfr100-rk3399 \
+  fine-3399-rk3399 \
   h3399pc-rk3399 \
   king3399-rk3399 \
   mpc1903-rk3399 \
@@ -304,7 +339,8 @@ UBOOT_TARGETS := \
   nanopi-r2c-rk3328 \
   nanopi-r2s-rk3328 \
   orangepi-r1-plus-rk3328 \
-  orangepi-r1-plus-lts-rk3328
+  orangepi-r1-plus-lts-rk3328 \
+  sige7-rk3588
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 
